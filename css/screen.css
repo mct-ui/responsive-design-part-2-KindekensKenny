@@ -5,22 +5,22 @@
 @font-face {
     font-family: "HK Grotesk Web";
     font-weight: 200;
-    src: url("../fonts/hkgrotesk-light-webfont.woff") format("woff"),
-         url("../fonts/hkgrotesk-light-webfont.woff2") format("woff2");
+    src: url("../fonts/hkgrotesk-light-webfont.woff2") format("woff2"),
+         url("../fonts/hkgrotesk-light-webfont.woff") format("woff");
 }
 
 @font-face {
     font-family: "HK Grotesk Web";
     font-weight: 400;
-    src: url("../fonts/hkgrotesk-regular-webfont.woff") format("woff"),
-         url("../fonts/hkgrotesk-regular-webfont.woff2") format("woff2");
+    src: url("../fonts/hkgrotesk-regular-webfont.woff2") format("woff2"),
+         url("../fonts/hkgrotesk-regular-webfont.woff") format("woff");
 }
 
 @font-face {
     font-family: "HK Grotesk Web";
     font-weight: 600;
-    src: url("../fonts/hkgrotesk-medium-webfont.woff") format("woff"),
-         url("../fonts/hkgrotesk-medium-webfont.woff2") format("woff2");
+    src: url("../fonts/hkgrotesk-medium-webfont.woff2") format("woff2"),
+         url("../fonts/hkgrotesk-medium-webfont.woff") format("woff");
 }
 
 /*------------------------------------*\
@@ -36,11 +36,16 @@
 html {
     font-size: 16px;
     line-height: 1.5;
-    font-family: "HK Grotesk Web", sans-serif;
+    font-family: "HK Grotesk Web", Helvetica, arial, sans-serif;
     color: #202024;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+.has-mobile-nav {
+    overflow: hidden;
 }
 
 *,
@@ -62,6 +67,12 @@ html {
  *
  * Customize the background color to match your design.
  */
+
+::-moz-selection {
+    background: #5051DB;
+    color: white;
+    text-shadow: none;
+}
 
 ::selection {
     background: #5051DB;
@@ -171,12 +182,12 @@ hr {
 
 a {
     color: #5051DB;
-    transition: all .1s ease-in-out;
+    transition: all .1s ease;
 }
 
 a:visited,
 a:active {
-    color: #5051DB;
+    color: #3E3EA8;
 }
 
 a:hover,
@@ -198,6 +209,17 @@ a:focus {
     position: relative;
     padding: 24px 24px 0;
     display: flow-root;
+}
+
+/* color modifiers */
+
+.o-row--neutral-x-light {
+    background-color: #F7F7FA;
+}
+
+.o-row--gradient-1 {
+    background: linear-gradient(to top right, #5051DB, #3887F7);
+    color: #fff;
 }
 
 /* size modifiers */
@@ -223,6 +245,12 @@ a:focus {
     }
 }
 
+/* padding clear modifiers */
+
+.o-row--clear-top {
+    padding-top: 0;
+}
+
 /*
     Objects: Container
     ---
@@ -237,6 +265,34 @@ a:focus {
 }
 
 /*
+    Objects: section
+    ---
+    Creates vertical whitespace between adjacent sections inside a row
+*/
+
+.o-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.o-section + .o-section {
+    margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+    .o-section--lg + .o-section--lg,
+    .o-section--xl + .o-section--xl {
+        margin-top: 48px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .o-section--xl + .o-section--xl {
+        margin-top: 72px;
+    }
+}
+
+/*
     Objects: Layout
     ---
     The layout object provides us with a column-style layout system. This object
@@ -245,8 +301,6 @@ a:focus {
 */
 
 .o-layout {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
 }
@@ -359,63 +413,14 @@ a:focus {
     Small reusable object to remove default list styling from lists
 */
 
-.o-list-reset {
+.o-list {
     list-style: none;
     padding: 0;
 }
 
-/*
-    Objects: section
-    ---
-    Creates vertical whitespace between adjacent sections inside a row
-*/
-
-.o-section {
-    display: flow-root;
-}
-
-.o-section + .o-section {
-    margin-top: 24px;
-}
-
-@media (min-width: 768px) {
-    .o-section--lg + .o-section--lg,
-    .o-section--xl + .o-section--xl {
-        margin-top: 48px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .o-section--xl + .o-section--xl {
-        margin-top: 72px;
-    }
-}
-
-
 /*------------------------------------*\
   #COMPONENTS
 \*------------------------------------*/
-
-/*
-    Component: header
-    ---
-    Main header of the website
-*/
-
-.c-header__nav {
-    display: none;
-}
-
-@media (min-width: 992px) {
-    .c-header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .c-header__nav {
-        display: block;
-    }
-}
 
 /*
     Component: Logo
@@ -425,16 +430,128 @@ a:focus {
 
 .c-logo {
     height: 32px;
+    display: flex;
+    align-items: center;
 }
 
 .c-logo__symbol {
-    height: 100%;
+    height: inherit;
 }
 
 @media (min-width: 768px) {
     .c-logo {
         height: 40px;
     }
+}
+
+/*
+    Component: header
+    ---
+    Main header of the website
+*/
+
+.c-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.c-header__nav {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .c-header__logo,
+    .c-header__nav {
+        flex-grow: 1;
+        flex-basis: 50%;
+    }
+
+    .c-header__nav {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .c-header__nav--main {
+        flex-grow: 2;
+        justify-content: center;
+    }
+
+    .c-header__mobile-nav-trigger {
+        display: none;
+    }
+}
+
+/*
+    Component: footer
+    ---
+    Main footer of the website
+*/
+
+.c-footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.c-footer__logo {
+    width: 100%;
+}
+
+.c-footer__nav {
+    width: 50%;
+}
+
+@media (min-width: 768px) {
+    .c-footer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .c-footer__logo {
+        display: flex;
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .c-footer__nav {
+        width: auto;
+        padding: 0 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    .c-footer {
+        justify-content: space-between;
+    }
+
+    .c-footer__nav {
+        padding: 0;
+    }
+
+    .c-footer__logo + .c-footer__nav {
+        order: -1;
+    }
+
+    .c-footer__logo {
+        width: auto;
+    }
+
+    /*
+        Bonus: real centering with CSS
+        Checkout: https://css-tricks.com/centering-css-complete-guide/
+    */
+
+    /* .c-footer__logo {
+        width: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .c-footer__logo .c-logo {
+        margin-bottom: 0;
+    } */
 }
 
 /*
@@ -454,8 +571,9 @@ a:focus {
 
 .c-nav__link {
     text-decoration: none;
-    padding: 8px 0;
+    font-weight: 400;
     display: block;
+    padding: 8px 0;
 }
 
 .c-nav__link,
@@ -473,13 +591,18 @@ a:focus {
 .is-selected .c-nav__link,
 .c-nav__link:hover,
 .c-nav__link:focus {
-    color: #5051DB;
+    color: #5051db;
 }
 
 @media (min-width: 768px) {
     .c-nav__list {
         display: flex;
-        gap: 32px;
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+
+    .c-nav__link {
+        padding: 8px 16px;
     }
 }
 
@@ -558,6 +681,71 @@ a:focus {
 }
 
 /*
+    Component: figure
+    ---
+    Special type of figure and figcaption
+*/
+
+.c-figure {
+    position: relative;
+}
+
+.c-figure__caption {
+    line-height: 15px;
+    margin-top: 8px;
+    padding-left: 6px;
+    padding-top: 1px;
+    border: 2px solid #5051DB;
+    border-width: 0 0 0 2px;
+}
+
+@media (min-width: 768px) {
+    .c-figure__caption--absolute {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 8px;
+        text-align: right;
+        background-color: #fff;
+        padding: 16px;
+        max-width: 260px;
+        border-width: 0 4px 0 0;
+    }
+}
+
+/*
+    Component: Title icon
+    ---
+    Special type of title with icon
+*/
+
+.c-title-icon {
+    display: flex;
+    align-items: flex-start;
+}
+
+.c-title-icon__icon {
+    height: 70px;
+    margin-right: 20px;
+}
+
+.c-title-icon__path {
+    fill: #202024;
+}
+
+@media (min-width: 768px) {
+    .c-title-icon__icon {
+        height: 84px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .c-title-icon__icon {
+        height: 112px;
+    }
+}
+
+/*
     Component: CTA link
     ---
     Small cta link with custom animation
@@ -618,68 +806,27 @@ a:focus {
     background-color: #fff;
 }
 
-/*
-    Component: footer
-    ---
-    Main footer of the website
-*/
-
-.c-footer {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.c-footer__logo {
-    width: 100%;
-}
-
-.c-footer__nav {
-    width: 50%;
-}
-
-@media (min-width: 768px) {
-    .c-footer {
-        justify-content: center;
-        align-items: center;
-    }
-
-    .c-footer__logo {
-        display: flex;
-        justify-content: center;
-        padding: 0 12px;
-    }
-
-    .c-footer__nav {
-        padding: 0;
-    }
-
-    .c-footer__logo + .c-footer__nav {
-        order: -1;
-    }
-
-    .c-footer__logo {
-        width: auto;
-    }
-}
-
-@media (min-width: 992px) {
-    .c-footer {
-    }
-
-    .c-footer__logo {
-    }
-
-    .c-footer__logo .c-logo {
-    }
-
-    .c-footer__nav {
-    }
-}
-
-
 /*------------------------------------*\
   #UTILITIES
 \*------------------------------------*/
+
+/*
+    Utilities: color
+    ---
+    Utility classes to put specific colors onto elements
+*/
+
+.u-color-primary-light {
+    color: #7373F5;
+}
+
+.u-color-primary-base {
+    color: #5051DB;
+}
+
+.u-color-primary-dark {
+    color: #3E3EA8;
+}
 
 /*
     Utilities: spacing
@@ -691,24 +838,28 @@ a:focus {
     padding-top: 0 !important;
 }
 
-.u-pt-xs {
-    padding-top: 8px !important;
-}
-
-.u-pt-sm {
-    padding-top: 16px !important;
-}
-
 .u-mb-clear {
     margin-bottom: 0 !important;
 }
 
 .u-mb-xs {
-    margin-bottom: 8px !important;
+    margin-bottom: 4px !important;
 }
 
 .u-mb-sm {
+    margin-bottom: 8px !important;
+}
+
+.u-mb-md {
     margin-bottom: 16px !important;
+}
+
+.u-mb-lg {
+    margin-bottom: 32px !important;
+}
+
+.u-mb-xl {
+    margin-bottom: 48px !important;
 }
 
 /*
@@ -943,25 +1094,6 @@ a:focus {
         flex-basis: calc(100% / 6 * 5) !important;
     }
 }
-
-/*
-    Utilities: color
-    ---
-    Utility classes to put specific colors onto elements
-*/
-
-.u-color-primary-light {
-    color: #7373F5 !important;
-}
-
-.u-color-primary-base {
-    color: #5051DB !important;
-}
-
-.u-color-primary-dark {
-    color: #3E3EA8 !important;
-}
-
 
 /*------------------------------------*\
   #MEDIA
